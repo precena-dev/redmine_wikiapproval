@@ -18,6 +18,6 @@ Login to Redmine and go to Administration->Plugins. You should now see 'Redmine 
 
 Usage
 ------------
-Anywhere, ideally on top, on a wiki page include the macro {{wikiapproval}} to display the approved state of the page or page revision.
+Anywhere, ideally on top, on a wiki page include the macro {{approvepage}} to display the approved state of the page or page revision.
 
 When saving changes to a wiki page add a comment text starting with the word "Freigegeben:" to the comment to approve a page.
