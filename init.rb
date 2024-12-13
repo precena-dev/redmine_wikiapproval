@@ -47,9 +47,9 @@ DESCRIPTION
 			#out << page.versions[page.versions.size-3].version.to_s
 
 			if page.versions.last.comments.starts_with?('Freigegeben:')
-				out <<content_tag(:p, safe_join(["Approval Status: ", content_tag(:span, "Approved", :style=>"color:green"), " by ", link_to_user(obj.author), " ", time_tag(page.updated_on), "ago. " ]))
+				out <<content_tag(:p, safe_join(["Approval Status: ", content_tag(:span, "Approved", :style=>"color:green"), " by ", link_to_user(obj.author), " ", time_tag(page.updated_on), " ago. " ]))
 			else
-				out <<content_tag(:p, safe_join(["Approval Status: ", content_tag(:span, "Not Approved.", :style=>"color:red"), " Last changed by ", link_to_user(obj.author), " ", time_tag(page.updated_on), "ago. " ]))
+				out <<content_tag(:p, safe_join(["Approval Status: ", content_tag(:span, "Not Approved.", :style=>"color:red"), " Last changed by ", link_to_user(obj.author), " ", time_tag(page.updated_on), " ago. " ]))
 
 				for i in (page.versions.size-1).downto(0)
 					#out << content_tag(:p, page.versions[i].version.to_s+", "+page.versions[i].comments)
@@ -66,13 +66,13 @@ DESCRIPTION
                                         out << link_to_user(page.versions[lastapprovedindex].author)
                                         out << " ".html_safe
                                         out << time_tag(page.versions[lastapprovedindex].updated_on)
-                                        out << "ago. ".html_safe
+                                        out << " ago. ".html_safe
                                         #https://github.com/redmine/redmine/blob/master/app/views/wiki/history.html.erb
                                         #out << link_to(page.page.version, :action => 'show', :id=>page.page.title, :project_id => page.page.project, :version => page.page.v
 
                                         #link_to ver.version, :action => 'show', :id => @page.title, :project_id => @page.project, :version => ver.version
                                 else
-                                        out << content_tag(:p, "Es gibt noch keine freigegebene Revision. Diese Seite darf nicht produktiv verwendet werden!", :style=>"color:red")
+                                        out << content_tag(:p, "There is no approved revision yet. This page may not be used productively!", :style=>"color:red")
                                 end
 			end
 			#out << content_tag(:span,safe_join([avatar(obj.author, size: 14), ' ', link_to_user(obj.author)]),class: 'last-updated-by')
@@ -110,20 +110,20 @@ DESCRIPTION
 
                                if obj.comments.starts_with?('Freigegeben:')
                                        if (obj.version - 1 ) == lastapprovedindex
-                                               out << content_tag(:p, "Dies ist die neuste freigegebene Revision.", :style=>"color:green")
+                                               out << content_tag(:p, "This is the latest approved Revision.", :style=>"color:green")
                                        else
-                                               out << content_tag(:p, safe_join(["Dies ist eine veraltete freigegebene Revision! Die neuste freigegebene Revision ist ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s)]), :style=>"color:red")
-                                               out << content_tag(:p, safe_join(["Für produktive Arbeiten unbedingt die letzte freigegebene Revision verwenden! Dazu hier klicken: ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s), ". " ]), :style=>"color:red")
+                                               out << content_tag(:p, safe_join(["This is an outdated approved revision! The latest approved revision is ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s)]), :style=>"color:red")
+                                               out << content_tag(:p, safe_join(["For productive work, be sure to use the latest approved revision! To do so, click here: ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s), ". " ]), :style=>"color:red")
                                                #out << content_tag(:p, "Dies ist eine veraltete freigegebene Revision!  Die neuste freigegebene Revision ist ", :style=>"color:red")
                                                #out << link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s)
                                        end
                                else
                                        if lastapprovedindex != ""
-                                               out << content_tag(:p, safe_join(["Diese Revision ist nicht freigegeben! Die neuste freigegebene Revision ist ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s)]), :style=>"color:red")
-                                               out << content_tag(:p, safe_join(["Für produktive Arbeiten unbedingt die letzte freigegebene Revision verwenden! Dazu hier klicken: ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s), ". " ]), :style=>"color:red")
+                                               out << content_tag(:p, safe_join(["This revision is not approved! The latest approved revision is ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s)]), :style=>"color:red")
+                                               out << content_tag(:p, safe_join(["For productive work, be sure to use the latest approved revision! To do so, click here: ", link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s), ". " ]), :style=>"color:red")
                                                 #out << link_to('Revision '+obj.page.content.versions[lastapprovedindex].version.to_s, :action => 'show', :id=>obj.page.title, :project_id => obj.page.content.project, :version => obj.page.content.versions[lastapprovedindex].version.to_s)
                                        else
-                                               out << content_tag(:p, "Diese Revision ist nicht freigegeben! Es gibt noch keine freigegebene Revision. Diese Seite darf nicht produktiv verwendet werden!", :style=>"color:red")
+                                               out << content_tag(:p, "This revision is not approved! There is no approved revision yet.", :style=>"color:red")
                                        end
                                end
 
