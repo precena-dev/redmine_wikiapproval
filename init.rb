@@ -46,14 +46,14 @@ DESCRIPTION
 			#out << page.versions.last.updated_on.to_s
 			#out << page.versions[page.versions.size-3].version.to_s
 
-			if page.versions.last.comments.starts_with?('Freigegeben:')
+			if page.versions.last.comments.starts_with?('Freigegeben:') || page.versions.last.comments.starts_with?('Approved:')
 				out <<content_tag(:p, safe_join(["Approval Status: ", content_tag(:span, "Approved", :style=>"color:green"), " by ", link_to_user(obj.author), " ", time_tag(page.updated_on), " ago. " ]))
 			else
 				out <<content_tag(:p, safe_join(["Approval Status: ", content_tag(:span, "Not Approved.", :style=>"color:red"), " Last changed by ", link_to_user(obj.author), " ", time_tag(page.updated_on), " ago. " ]))
 
 				for i in (page.versions.size-1).downto(0)
 					#out << content_tag(:p, page.versions[i].version.to_s+", "+page.versions[i].comments)
-					if page.versions[i].comments.starts_with?('Freigegeben:')
+					if page.versions[i].comments.starts_with?('Freigegeben:') || page.versions[i].comments.starts_with?('Approved:')
 						#lastapproved=(i+1).to_s
 						lastapprovedindex=i#page.versions[i].version.to_s
 						break
@@ -98,7 +98,7 @@ DESCRIPTION
 
                                for i in (obj.page.content.versions.size-1).downto(0)
                                        #out << content_tag(:p, page.versions[i].version.to_s+", "+page.versions[i].comments)
-                                       if obj.page.content.versions[i].comments.starts_with?('Freigegeben:')
+                                       if obj.page.content.versions[i].comments.starts_with?('Freigegeben:') || obj.page.content.versions[i].comments.starts_with?('Approved:')
                                                #lastapproved=(i+1).to_s
                                                lastapprovedindex=i#page.versions[i].version.to_s
                                                break
@@ -108,7 +108,7 @@ DESCRIPTION
                                #out << " ÄÄÄÄ lastapprovedindex: " << lastapprovedindex.to_s
                                #out << " obj.version" << obj.version.to_s <<  "ÄÄÄÄ"
 
-                               if obj.comments.starts_with?('Freigegeben:')
+                               if obj.comments.starts_with?('Freigegeben:') || obj.comments.starts_with?('Approved:')
                                        if (obj.version - 1 ) == lastapprovedindex
                                                out << content_tag(:p, "This is the latest approved Revision.", :style=>"color:green")
                                        else
